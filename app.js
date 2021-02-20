@@ -31,7 +31,8 @@ const showImages = (images) => {
     images.forEach((image) => {
       let div = document.createElement("div");
       div.className = "col-lg-3 col-md-4 col-xs-6 img-item mb-2";
-      div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
+      div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">
+      <p class="imag-views"> ${image.views} </p>`;
       gallery.appendChild(div);
       toggleSpinner(false);
     });
@@ -41,9 +42,8 @@ const getImages = (query) => {
   toggleSpinner(true);
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
     .then(response => response.json())
+    // .then(data => showImages(data.hits));
     .then(data => showImages(data.hits));
-    // .then(data => console.log(data.hits))
-  // .catch(err => console.log(err))
 }
 
 let slideIndex = 0;
@@ -79,7 +79,7 @@ const createSlider = () => {
   // hide image aria
   imagesArea.style.display = 'none';
   const duration = document.getElementById('duration').value || 1000;
-  if (duration < 1) {
+  if (duration < 2) {
     alert("Please Enter a Positive Value");
     return;
   } else {
@@ -88,8 +88,9 @@ const createSlider = () => {
       item.className = "slider-item";
       item.innerHTML = `<img class="w-100"
     src="${slide}"
-    alt="">`;
-      sliderContainer.appendChild(item)
+    alt="">
+    `;
+      sliderContainer.appendChild(item);
     });
   }
   changeSlide(0)
